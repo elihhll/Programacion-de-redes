@@ -36,3 +36,13 @@ async def listar(activo: bool | None = None):
     if activo is None:
         return inventario
     return [equipo for equipo in inventario if equipo.activo == activo]
+
+
+@app.get("/dispositivos/{nombre}")
+async def obtener(nombre: str):
+    """Busca un equipo por su nombre."""
+    for equipo in inventario:
+        if equipo.nombre.upper() == nombre.upper():
+            return equipo
+    raise HTTPException(status_code=404,
+                        detail=f"No existe el equipo {nombre}")
