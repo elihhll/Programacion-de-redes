@@ -28,3 +28,11 @@ inventario = [
 async def estado():
     """Comprueba que el servicio responde."""
     return {"servicio": "Inventario de red", "total": len(inventario)}
+
+
+@app.get("/dispositivos")
+async def listar(activo: bool | None = None):
+    """Lista el inventario. Con ?activo=true filtra los que están en línea."""
+    if activo is None:
+        return inventario
+    return [equipo for equipo in inventario if equipo.activo == activo]
